@@ -1,0 +1,48 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "@frontenso/javascript",
+    "plugin:sonarjs/recommended",
+    "plugin:vue/essential",
+    "plugin:vue/recommended",
+    "plugin:vue/strongly-recommended",
+    "@vue/prettier"
+  ],
+  "parserOptions": {
+    "parser": "@babel/eslint-parser"
+  },
+  "rules": {
+    "unicorn/filename-case": [
+      "error",
+      { "cases": { "kebabCase": true, "pascalCase": true } }
+    ],
+    "vue/order-in-components": "warn",
+    "vue/require-default-prop": 0,
+    "vue/no-v-html": 0,
+    "vue/eqeqeq": "error",
+    "no-console": ["warn", { "allow": ["warn", "error", "info", "table"] }],
+    "vue/multi-word-component-names": "off",
+    "vue/html-self-closing": [
+      "error",
+      {
+        "html": {
+          "void": "always",
+          "normal": "always",
+          "component": "always"
+        },
+        "svg": "always",
+        "math": "always"
+      }
+    ],
+    "vue/max-attributes-per-line": ["off"],
+    "vue/attribute-hyphenation": ["error", "never"],
+    "vue/prop-name-casing": ["error", "camelCase"],
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/multiline-html-element-content-newline": "off",
+    "vue/v-on-event-hyphenation": "off"
+  },
+  "ignorePatterns": ["node_modules"]
+}

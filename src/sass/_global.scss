@@ -1,0 +1,68 @@
+.transition-active {
+  transition: color $default-transition-duration $default-transition-function,
+    background $default-transition-duration $default-transition-function,
+    border-color $default-transition-duration $default-transition-function,
+    opacity $default-transition-duration $default-transition-function;
+}
+
+.transition-hover {
+  transition: none;
+}
+
+.hover-default {
+  @include animated;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:focus {
+    opacity: 0.6;
+  }
+}
+
+body {
+  @include font-family-sans;
+}
+
+.container {
+  width: 100%;
+  max-width: #{$container-width + $offset-side * 2};
+  padding-right: $offset-side-xs;
+  padding-left: $offset-side-xs;
+  margin-right: auto;
+  margin-left: auto;
+
+  &._relative {
+    position: relative;
+  }
+
+  @include media-sm {
+    padding-right: $offset-side-sm;
+    padding-left: $offset-side-sm;
+  }
+
+  @include media-md {
+    padding-right: $offset-side-md;
+    padding-left: $offset-side-md;
+  }
+
+  @include media-lg {
+    padding-right: $offset-side;
+    padding-left: $offset-side;
+  }
+}
+
+.expand-area {
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    bottom: -15px;
+    left: -15px;
+  }
+}

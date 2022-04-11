@@ -1,0 +1,30 @@
+{
+  "name": "@chronos/npm_version_checker",
+  "description": "Detect npm packages released after date",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@games-gitlab.mail.ru:7999/chronos/packages/npm_version_checker.git"
+  },
+  "publishConfig": {
+    "@chronos:registry": "https://games-gitlab.mail.ru/api/v4/projects/147/packages/npm/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Vyacheslav Volodin",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.0"
+  },
+  "peerDependencies": {
+    "chalk": "^4.1.2",
+    "execa": "^1.0.0",
+    "glob": "^7.2.0",
+    "glob-promise": "^4.2.2",
+    "p-queue": "^7.2.0"
+  }
+}
