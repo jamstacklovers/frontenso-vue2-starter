@@ -15,10 +15,7 @@
     "parser": "@babel/eslint-parser"
   },
   "rules": {
-    "unicorn/filename-case": [
-      "error",
-      { "cases": { "kebabCase": true, "pascalCase": true } }
-    ],
+    "unicorn/filename-case": ["error", { "cases": { "kebabCase": true, "pascalCase": true } }],
     "vue/order-in-components": "warn",
     "vue/require-default-prop": 0,
     "vue/no-v-html": 0,
@@ -42,7 +39,9 @@
     "vue/prop-name-casing": ["error", "camelCase"],
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline": "off",
-    "vue/v-on-event-hyphenation": "off"
+    "vue/v-on-event-hyphenation": "off",
+    "vue/no-unused-components": "warn",
+    "no-unused-vars": "warn"
   },
   "ignorePatterns": ["node_modules"]
 }
