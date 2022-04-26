@@ -1,9 +1,17 @@
 const fs = require("fs");
 const path = require("path");
 
+const imagemin = require("imagemin");
+const imageminPngquant = require("imagemin-pngquant");
 const sharp = require("sharp");
 
-const dir = path.resolve("./public/");
+const dir = path.resolve("./dist/img/");
+
+const pngOptions = {
+  quality: [0.5, 0.7],
+};
+
+const jpegOptions = { quality: 45 };
 
 const avifOptions = {
   quality: 48,
@@ -12,21 +20,21 @@ const avifOptions = {
 };
 
 const webpOptions = {
-  quality: 55,
+  quality: 45,
   alphaQuality: 70,
   speed: 8,
   chromaSubsampling: "4:2:0",
 };
 
-const extension = (filename) => filename.split(".")[1];
+/** @param {string} filename */
+function getExtension(filename) {
+  return filename.split(".").slice(-1)[0];
+}
 
-// const errorHandler = (err) => {
-//   if (err) {
-//     console.info(err);
-//   } else {
-//     return;
-//   }
-// };
+/** @param {string} pathStr */
+function getPathWithoutExtension(pathStr) {
+  return pathStr.split(".").slice(0, -1).join(".");
+}
 
 function main() {
   fs.readdir(dir, (error, filenames) => {
@@ -35,7 +43,7 @@ function main() {
     }
     filenames
       .map((filename) => {
-        if (["avif", "webp"].includes(extension(filename))) {
+        if (["avif", "webp"].includes(getExtension(filename))) {
           fs.unlink(`${dir}/${filename}`, () => {
             console.info(`${filename} has been deleted`);
           });
@@ -44,18 +52,40 @@ function main() {
         return filename;
       })
       .filter((filename) => {
-        return ["jpeg", "png", "jpg"].includes(extension(filename));
+        return ["jpeg", "png", "jpg"].includes(getExtension(filename));
       })
       .forEach((filename) => {
+        const extension = getExtension(filename);
         sharp(path.join(dir, filename))
           .toFormat("avif")
           .avif(avifOptions)
-          .toFile(`${dir}/${filename.split(".")[0]}.avif`);
+          .toFile(`${dir}/${getPathWithoutExtension(filename)}.avif`);
         sharp(path.join(dir, filename))
           .toFormat("webp")
           .webp(webpOptions)
-          .toFile(`${dir}/${filename.split(".")[0]}.webp`);
+          .toFile(`${dir}/${getPathWithoutExtension(filename)}.webp`);
+        if (["jpg", "jpeg"].includes(extension)) {
+          sharp(path.join(dir, filename))
+            .jpeg(jpegOptions)
+            .toBuffer((err, buffer) => {
+              if (err) {
+                throw new Error(err.message);
+              }
+              // eslint-disable-next-line max-nested-callbacks
+              fs.writeFile(`${dir}/${filename}`, buffer, (writeErr) => {
+                if (writeErr) {
+                  throw new Error(writeErr.message);
+                }
+              });
+            });
+        }
       });
+  });
+
+  // Optimizing .png files
+  imagemin([`${dir}/**/*.png`], {
+    destination: dir,
+    plugins: [imageminPngquant(pngOptions)],
   });
 }
 

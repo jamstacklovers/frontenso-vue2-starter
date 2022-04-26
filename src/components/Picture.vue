@@ -1,8 +1,9 @@
 <template>
-  <picture>
-    <source :srcset="srcAvif" type="image/avif" />
-    <source :srcset="srcWebp" type="image/webp" />
-    <img :src="`${srcOriginal}`" :class="className" v-bind="$attrs" />
+  <img v-if="isSvg" :src="importedImagePath" :alt="alt" />
+  <picture v-else>
+    <source v-if="shouldShowOptimizedSources" :srcset="srcAvif" type="image/avif" />
+    <source v-if="shouldShowOptimizedSources" :srcset="srcWebp" type="image/webp" />
+    <img :src="importedImagePath" :class="className" loading="lazy" v-bind="$attrs" :alt="alt" />
   </picture>
 </template>
 
@@ -28,17 +29,28 @@ export default {
     },
   },
   computed: {
-    srcWithoutExtension() {
-      return this.src?.split(".")[0];
+    shouldShowOptimizedSources() {
+      return process.env.NODE_ENV === "production";
+    },
+    isSvg() {
+      return this.src?.split(".").slice(-1)[0] === "svg";
+    },
+    importedImagePathWithoutExtension() {
+      return this.getPathWithoutExtension(this.importedImagePath);
     },
     srcAvif() {
-      return require(`@/assets/images${this.srcWithoutExtension}.avif`);
+      return `${this.importedImagePathWithoutExtension}.avif`;
     },
     srcWebp() {
-      return require(`@/assets/images${this.srcWithoutExtension}.webp`);
+      return `${this.importedImagePathWithoutExtension}.webp`;
     },
-    srcOriginal() {
+    importedImagePath() {
       return require(`@/assets/images${this.src}`);
+    },
+  },
+  methods: {
+    getPathWithoutExtension(path) {
+      return path.split(".").slice(0, -1).join(".");
     },
   },
 };
