@@ -3,7 +3,13 @@
   <picture v-else>
     <source v-if="shouldShowOptimizedSources" :srcset="srcAvif" type="image/avif" />
     <source v-if="shouldShowOptimizedSources" :srcset="srcWebp" type="image/webp" />
-    <img :src="importedImagePath" :class="className" loading="lazy" v-bind="$attrs" :alt="alt" />
+    <img
+      :src="importedImagePath"
+      :class="className"
+      v-bind="$attrs"
+      :loading="loading"
+      :alt="alt"
+    />
   </picture>
 </template>
 
@@ -26,6 +32,11 @@ export default {
       default: "",
       type: String,
       required: true,
+    },
+    loading: {
+      type: String,
+      default: "lazy",
+      required: false,
     },
   },
   computed: {
