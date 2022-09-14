@@ -50,18 +50,27 @@ export default {
       return this.getPathWithoutExtension(this.importedImagePath);
     },
     srcAvif() {
-      return `${this.importedImagePathWithoutExtension}.avif`;
+      return `${this.importedImagePathWithoutExtension}.avif${this.queryParams}`;
     },
     srcWebp() {
-      return `${this.importedImagePathWithoutExtension}.webp`;
+      return `${this.importedImagePathWithoutExtension}.webp${this.queryParams}`;
     },
     importedImagePath() {
       return require(`@/assets/images${this.src}`);
+    },
+    queryParams() {
+      return this.getQueryParams(this.importedImagePath);
     },
   },
   methods: {
     getPathWithoutExtension(path) {
       return path.split(".").slice(0, -1).join(".");
+    },
+
+    getQueryParams(path) {
+      const end = path.split(".").slice(-1)[0];
+      const params = end.split("?")[1];
+      return params ? `?${params}` : "";
     },
   },
 };
