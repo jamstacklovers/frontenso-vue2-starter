@@ -1,0 +1,28 @@
+{
+  "extends": ["stylelint-config-recommended-scss", "stylelint-config-idiomatic-order"],
+  "rules": {
+    "string-no-newline": true,
+    "comment-no-empty": true,
+    "scss/comment-no-empty": null,
+    "property-no-vendor-prefix": true,
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": null,
+    "no-descending-specificity": null,
+    "no-empty-source": null,
+    "scss/no-global-function-names": true,
+    "rule-empty-line-before": [
+      "always-multi-line",
+      {
+        "except": ["first-nested"]
+      }
+    ],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["deep"]
+      }
+    ]
+  },
+  "ignoreFiles": ["src/sass/**/*.{sass,scss}"],
+  "plugins": ["stylelint-order"]
+}
